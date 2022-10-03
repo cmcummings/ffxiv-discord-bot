@@ -1,0 +1,14 @@
+{
+    "botInfo": {
+        "version": "dev",
+        "name": "ffxiv-bot",
+        "description": "ffxiv-bot is an unofficial, open-source, general-purpose Discord bot\nfor the critically acclaimed MMORPG Final Fantasy XIV.\n\n[GitHub Repo](https://github.com/cmcummings/ffxiv-discord-bot)",
+        "logo": "https://cdn.discordapp.com/attachments/1025979830786854945/1025979859765301328/ffxiv-bot-logo-2-notext.png"
+    },
+    "colors": {
+        "icon": "5662F6",
+        "character": "538DDE"
+    },
+    "clientId": "1025644868321693736",
+    "guildId": "1025647405632344116"
+}
