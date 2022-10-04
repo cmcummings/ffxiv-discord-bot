@@ -4,6 +4,7 @@ const XIVAPI = require('@xivapi/js');
 const jobCategories = require("../static_data/job-categories.json");
 const jobMap = require("../static_data/job-map.json");
 const { Character } = require('./character');
+const { FreeCompany } = require('./free-company');
 const { Job } = require("./job");
 
 class FFXIVAPI {
@@ -53,6 +54,16 @@ class FFXIVAPI {
         const charData = await this.xivapi.character.get(lodestoneID);
 
         return new Character(charData);
+    }
+
+    async getFreeCompany(name, server) {
+        const searchRes = await this.xivapi.freecompany.search(name, {server: server});
+        if (searchRes.Results.length === 0) return;
+
+        const lodestoneID = searchRes.Results[0].ID;
+        const fcData = await this.xivapi.freecompany.get(lodestoneID);
+
+        return new FreeCompany(fcData);
     }
 };
 
