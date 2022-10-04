@@ -6,12 +6,12 @@ const { colors } = require("../config.json")
 
 
 module.exports = {
-    async buildCommand(ffxivapi) {
+    async buildCommand(xivapi) {
         const serverChoices = listToChoices(["Sargatanas", "Famfrit", "Exodus"]);
 
         return new SlashCommandBuilder()
             .setName('char')
-            .setDescription("Get a character's info.")
+            .setDescription("View a character.")
             .addStringOption(option =>
                 option.setName('name')
                     .setDescription("The character's name.")
