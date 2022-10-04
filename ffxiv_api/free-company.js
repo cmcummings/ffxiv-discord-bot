@@ -18,7 +18,7 @@ class FreeCompany {
         const crest = await Jimp.read(this.crestImgURLs[0]) // background
         crest.composite(await Jimp.read(this.crestImgURLs[2]), 0, 0) // figure
         crest.composite(await Jimp.read(this.crestImgURLs[1]), 0, 0) // border
-        return crest; 
+        return await crest.getBufferAsync(Jimp.MIME_PNG); 
     }
 }
 

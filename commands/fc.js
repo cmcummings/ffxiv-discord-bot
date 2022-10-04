@@ -46,8 +46,7 @@ module.exports = {
         await interaction.editReply({ embeds: [embed] })
 
         // Construct FC crest and update reply
-        const crest = await fc.getCrestAsBuffer();
-        const crestBuffer = await crest.getBufferAsync(Jimp.MIME_PNG);
+        const crestBuffer = await fc.getCrestAsBuffer();
         const crestFile = new AttachmentBuilder(crestBuffer, { name: "crest.png" });
         
         embed.setThumbnail("attachment://crest.png");
