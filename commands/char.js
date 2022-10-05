@@ -1,6 +1,6 @@
 // Show character summary
 
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, ComponentType } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, ComponentType, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { listToChoices } = require("../util");
 const { colors } = require("../config.json")
 
@@ -61,6 +61,7 @@ module.exports = {
         const generalEmbed = new EmbedBuilder()
             .setColor(colors.character)
             .setTitle(character.name)
+            .setURL(character.lodestoneURL)
             .setDescription(`${serverDesc}\n${curJobDesc}\n${fcDesc}`)
             .setImage(character.fullBodyImg);
 
@@ -70,6 +71,7 @@ module.exports = {
         const jobEmbed = new EmbedBuilder()
             .setColor(colors.character)
             .setTitle(character.name)
+            .setURL(character.lodestoneURL)
             .setDescription(`${curJobDesc}`)
             .setThumbnail(character.avatarImg);
 
@@ -87,7 +89,7 @@ module.exports = {
             });
         }
 
-        jobEmbed.addFields(...jobEmbedFields);
+        jobEmbed.addFields(jobEmbedFields);
 
         const jobReply = { content: "", embeds: [jobEmbed] };
 

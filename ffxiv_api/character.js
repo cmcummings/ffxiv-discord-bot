@@ -6,6 +6,7 @@ class Character {
     constructor(data) {
         const char = data.Character
 
+        this.id = char.ID;
         this.name = char.Name;
         this.datacenter = char.DC;
         this.server = char.Server;
@@ -23,6 +24,10 @@ class Character {
 
             this.jobs.push(job);
         }
+    }
+
+    get lodestoneURL() {
+        return `https://na.finalfantasyxiv.com/lodestone/character/${this.id}/`;
     }
 }
 
