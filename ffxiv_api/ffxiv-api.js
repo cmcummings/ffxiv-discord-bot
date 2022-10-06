@@ -6,6 +6,7 @@ const jobMap = require("../static_data/job-map.json");
 const { Character } = require('./character');
 const { FreeCompany } = require('./free-company');
 const { Job } = require("./job");
+const { Title } = require("./title");
 
 class FFXIVAPI {
     constructor(privateKey) {
@@ -64,6 +65,12 @@ class FFXIVAPI {
         const fcData = await this.xivapi.freecompany.get(lodestoneID);
 
         return new FreeCompany(fcData);
+    }
+
+    async getTitleById(titleId) {
+        const titleData = await this.xivapi.data.get("title", titleId);
+        if (titleData.Error) return "";
+        return new Title(titleData);
     }
 };
 

@@ -20,6 +20,17 @@ class FreeCompany {
         crest.composite(await Jimp.read(this.crestImgURLs[1]), 0, 0) // border
         return await crest.getBufferAsync(Jimp.MIME_PNG); 
     }
+
+    buildEmbed() {
+        return new EmbedBuilder()
+            .setTitle(`${fc.name} <${fc.tag}>`)
+            .setDescription(`${fc.slogan}`)
+            .setColor(colors.icon)
+            .addFields(
+                { name: "Server", value: fc.server, inline: true },
+                { name: "Members", value: `${fc.activeMemberCount}`, inline: true}
+            )
+    }
 }
 
 module.exports = { FreeCompany }

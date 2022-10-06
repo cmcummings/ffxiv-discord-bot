@@ -2,8 +2,6 @@
 
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, ComponentType, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { listToChoices } = require("../util");
-const { colors } = require("../config.json")
-
 
 module.exports = {
     async buildCommand(xivapi) {
@@ -34,10 +32,6 @@ module.exports = {
             return;
         }
 
-        const serverDesc = `DC/Server: ${character.datacenter}/${character.server}`;
-        const curJobDesc = `Current Job: ${character.mainJob.name}`;
-        const fcDesc = `Free Company: ${character.freeCompanyName}`;
-
         const actionRow = new ActionRowBuilder()
             .addComponents(
                 new SelectMenuBuilder()
@@ -57,41 +51,8 @@ module.exports = {
                     )
             );
 
-        // Construct general tab
-        const generalEmbed = new EmbedBuilder()
-            .setColor(colors.character)
-            .setTitle(character.name)
-            .setURL(character.lodestoneURL)
-            .setDescription(`${serverDesc}\n${curJobDesc}\n${fcDesc}`)
-            .setImage(character.fullBodyImg);
-
-        const generalReply = { content: "", embeds: [generalEmbed], components: [actionRow], fetchReply: true };
-
-        // Construct job tab
-        const jobEmbed = new EmbedBuilder()
-            .setColor(colors.character)
-            .setTitle(character.name)
-            .setURL(character.lodestoneURL)
-            .setDescription(`${curJobDesc}`)
-            .setThumbnail(character.avatarImg);
-
-        const jobEmbedFields = [];
-
-        const jobCategories = xivapi.getJobCategories();
-        for (const jobCategoryId in jobCategories) {
-            jobEmbedFields.push({ 
-                name: jobCategories[jobCategoryId],
-                value: character.jobs
-                    .filter(job => job.categoryId == jobCategoryId) // Only include jobs of this category
-                    .map(job => `${job.name} (${job.level})`) // Convert to string (name + level)
-                    .join("\n"), // Separate line by line
-                inline: true
-            });
-        }
-
-        jobEmbed.addFields(jobEmbedFields);
-
-        const jobReply = { content: "", embeds: [jobEmbed] };
+        const generalReply = { embeds: [await character.buildGeneralEmbed(xivapi)], components: [actionRow], fetchReply: true };
+        const jobReply = { embeds: [await character.buildJobEmbed(xivapi)] };
 
         await interaction.reply(generalReply)
             .then(message => {

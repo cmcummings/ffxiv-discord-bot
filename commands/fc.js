@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, CommandInteraction } = require("discord.js");
 const { listToChoices } = require("../util");
 const Jimp = require("jimp");
 const { colors } = require("../config.json");
@@ -23,7 +23,7 @@ module.exports = {
 
     async execute(interaction, xivapi) {
         await interaction.deferReply();
-
+        
         const name = interaction.options.getString('name');
         const server = interaction.options.getString('server');
         const fc = await xivapi.getFreeCompany(name, server);
@@ -34,16 +34,9 @@ module.exports = {
             return;
         }
 
-        const embed = new EmbedBuilder()
-            .setTitle(`${fc.name} <${fc.tag}>`)
-            .setDescription(`${fc.slogan}`)
-            .setColor(colors.icon)
-            .addFields(
-                { name: "Server", value: fc.server, inline: true },
-                { name: "Members", value: `${fc.activeMemberCount}`, inline: true}
-            )
+        const embed = fc.buildEmbed();
 
-        await interaction.editReply({ embeds: [embed] })
+        await interaction.editReply({ embeds: [embed] });
 
         // Construct FC crest and update reply
         const crestBuffer = await fc.getCrestAsBuffer();
